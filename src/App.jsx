@@ -2,6 +2,7 @@ import React from 'react';
 import UserForm from './components/userComponents/UserForm';
 import { ToastContainer } from 'react-toastify';
 import { BrowserRouter } from 'react-router-dom';
+import "./index.css";
 
 const isStandalone = !window.__POWERED_BY_HOST__; 
 
