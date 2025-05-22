@@ -8,8 +8,6 @@ import { toast } from "react-toastify";
  * Creates a Zustand store to handle user actions and state updates.
  */
 const formStore = create((set, get) => ({
-
-
   getSpecificUserLoader: false,
   payload: null,
   usersData: [],
@@ -34,7 +32,6 @@ const formStore = create((set, get) => ({
       const response = await axios
         .get(`https://crud-vip.vercel.app/api/users/${userId}`)
         .catch(function (error) {
-          console.log(error.response.data);
         });
 
       set({
@@ -130,8 +127,6 @@ const formStore = create((set, get) => ({
    * @returns {Promise<Object>} API response.
    */
   async updateStatus(payload) {
-    
-
     try {
       const response = await axios.patch(
          `${process.env.API}/users/${payload.id}/status`,
@@ -151,9 +146,8 @@ const formStore = create((set, get) => ({
             ...user,
             status: payload.newStatus,
           };
-        }
-
         return user;
+        }
       });
 
       set({
@@ -162,7 +156,6 @@ const formStore = create((set, get) => ({
       return response;
     } catch (error) {
       console.log("Error in updateUserData:", error);
-   
       toast.error("Status change failed!");
     }
   },

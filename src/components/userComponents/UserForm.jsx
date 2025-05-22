@@ -10,7 +10,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const UserForm = ({ update }) => {
-    console.log("update", update);
     
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
@@ -47,8 +46,9 @@ const UserForm = ({ update }) => {
     };
 
     /**
-     * @param {Event} e - The event triggered by the back action.
-     */
+    * @param {Event} e - The event triggered by the back action.
+    * @return {void} Prevents default event behavior and navigates to the home page.
+    */
     function backToHome(e) {
         e.preventDefault();
         navigate("/home")
@@ -56,9 +56,10 @@ const UserForm = ({ update }) => {
     }
 
 
-    /**
-     * @param {Event} e - The event containing the selected file.
-     */
+   /**
+    * @param {Event} e - The file selection event triggered by the user.
+    * @return {void} Validates file type and updates image state accordingly.
+    */
     function handleImageChange(e) {
 
         let type = e.target.files[0]?.type
@@ -80,9 +81,9 @@ const UserForm = ({ update }) => {
 
 
     /**
-     * Warns the user before leaving the page.
-     * Runs when `formLoader` changes.
-     */
+    * @param {boolean} formLoader - Indicates if the form is currently loading.
+    * @return {void} Adds or removes a warning before page unload based on formLoader state.
+    */
     useEffect(() => {
         window.addEventListener("beforeunload", alertUser);
         return () => {
@@ -90,30 +91,29 @@ const UserForm = ({ update }) => {
         };
     }, [formLoader]);
 
-
-
+    /**
+    * @param {Event} e - The beforeunload event triggered when the user attempts to leave the page.
+    * @return {void} Prevents the default unload behavior and prompts a warning.
+    */
     const alertUser = (e) => {
         e.preventDefault();
-        e.returnValue = "";
     };
 
     if (update == true) {
 
         /**
          * @param {string} id - Unique user identifier for retrieval.
+         * @return {void} Fetches and updates user details when the ID changes.
          */
         useEffect(() => {
             (getSpecificUserData(id));
         }, [id])
 
-
-
         /**
-         * Updates form values with data from the selected user.
+         * @param {Object} selectedUser - The user's data retrieved from the store.
+         * @return {void} Updates form fields with the selected user's information.
          */
         useEffect(() => {
-
-
             setValue("name", selectedUser?.name)
             setValue("email", selectedUser?.email)
             setValue("phone", selectedUser?.phone)
@@ -152,32 +152,23 @@ const UserForm = ({ update }) => {
         formData.append("image", image);
         formData.append("status", data?.status ?? false);
 
-
-
         try {
            
             if (update !== true) {
-
                 const response = await postUserData(formData)
-
                 if (response?.data?.statusCode === 201) {
                     navigate("/home");
                 }
 
             } else {
                 const response = await updateUserData({ formData, id })
-                console.log("response put", response);
                 if (response?.data?.statusCode === 200) {
                     navigate(-1);
                 }
-
-
             }
-
         } catch (error) {
             console.log("Error: " + (error?.message || "Something went wrong"));
         }
-
     };
 
 
@@ -230,7 +221,6 @@ const UserForm = ({ update }) => {
                                     }}
                                     render={({ field }) => (
                                         <div className="relative">
-                                            {console.log("formLoader from useform", formLoader)}
 
                                             <input
                                                 {...field}
@@ -425,9 +415,6 @@ const UserForm = ({ update }) => {
                                         </div>) : (
                                         <p className="text-gray-400">No image selected</p>
                                     )}
-
-
-
                                 </div>
                           
                                 <div className={update ? ` ` : `grid grid-cols-2 mt-2 gap-5 items-center`}>
@@ -452,7 +439,6 @@ const UserForm = ({ update }) => {
                     </div>
                 </form>
             </div>
-
     );
 }
 
