@@ -30,7 +30,7 @@ const formStore = create((set, get) => ({
     });
     try {
       const response = await axios
-        .get(`https://crud-vip.vercel.app/api/users/${userId}`)
+        .get(`${process.env.API}/users/${userId}`)
         .catch(function (error) {
         });
 
@@ -55,7 +55,7 @@ const formStore = create((set, get) => ({
 
     try {
       const response = await axios.post(
-        `https://crud-vip.vercel.app/api/users`,
+        `${process.env.API}/users`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -89,7 +89,7 @@ const formStore = create((set, get) => ({
 
     try {
       const response = await axios.put(
-        `https://crud-vip.vercel.app/api/users/${payload.id}`,
+        `${process.env.API}/users/${payload.id}`,
         payload.formData,
         {
           headers: {
