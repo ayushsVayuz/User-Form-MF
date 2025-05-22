@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import { useNavigate, useSearchParams, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { handleNameChange, handleAboutChange, handleEmailChange, handleLocationChange, handlePhoneChange } from "../../utils/util";
 import { FaArrowLeft } from "react-icons/fa";
@@ -11,12 +11,10 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const UserForm = ({ update }) => {
     
-    const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const { id } = useParams();
-    const [isChecked, setIsChecked] = useState(false);
 
-    const { usersData, selectedUser, formLoader, getSpecificUserData, postUserData, updateUserData, getSpecificUserLoader } = formStore();
+    const { selectedUser, formLoader, getSpecificUserData, postUserData, updateUserData, getSpecificUserLoader } = formStore();
 
     const {
         handleSubmit,
@@ -52,9 +50,7 @@ const UserForm = ({ update }) => {
     function backToHome(e) {
         e.preventDefault();
         navigate("/home")
-
     }
-
 
    /**
     * @param {Event} e - The file selection event triggered by the user.
